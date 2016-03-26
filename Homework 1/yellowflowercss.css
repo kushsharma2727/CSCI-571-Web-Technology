@@ -1,0 +1,144 @@
+html{
+    height:100%;
+}
+
+body{
+    min-width: 940px;
+    min-height: 100%;
+    margin:0px;
+    background-image: url("http://cs-server.usc.edu:45678/hw/hw3/images/background.png");
+    background-repeat: repeat-x;
+	background-color:#FCFBEE;
+}
+
+.header {
+    position: relative;
+    margin:auto; 
+	background: url("http://cs-server.usc.edu:45678/hw/hw3/images/main.jpg");
+    width: 900px;
+	height: 354px;    
+}
+
+.header .container {
+    margin:auto;
+    position: relative;
+    top:217px;
+    right: -585px;
+}
+
+.container #yellow {
+    color:#AC9800;
+    font-size:32px;
+    font-weight: bold;
+    padding:0px; 
+    border-width:0px; 
+    margin:0px; 
+}
+
+.container #flower {
+    color:#F3D861;
+    font-size:32px;
+    font-weight: bold;
+    padding:0px; 
+    border-width:0px; 
+    margin:0px; 
+}
+
+.container #line {
+    color:#776A00;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.bar {
+    position: relative;
+    margin:auto; 
+	background: url("http://cs-server.usc.edu:45678/hw/hw3/images/menu.png");
+    font-weight: bold;
+	width: 940px;
+	height: 69px;    
+}
+
+.bar .container div{
+    position: relative;
+	font-weight: bold;
+	font-size: 1.15em;
+	display: inline-block;
+	width: 90px;
+    padding-top: 15px;
+    padding-left: 39.5px;
+    padding-right: 20px;
+	text-align: center;
+    margin:auto;
+}
+
+.bar a:link{
+    position: relative;
+    margin:auto; 
+	text-decoration:none;
+	color: #3C3600;
+    font-weight: bold;
+}
+
+.bar a:visited{
+    text-decoration: none;
+    color: #3C3600;
+}
+
+.bar a:hover{
+	color:#E5CC00 ;
+}
+
+.page_content {
+    position: relative; 
+	background-color: #ffffff;
+	width: 900px;
+	height: 275px;
+    margin:auto;
+}
+
+.page_content h2{
+    position: relative;
+    margin:auto;
+	padding-top: 0px;
+	padding-left: 20px;
+	color: #051B38;
+    font-weight: bolder;  
+}
+
+.page_content h4{
+    position: relative;
+    margin:auto;
+	padding-top: 10px;
+	padding-left: 20px;
+    color: #051B38;
+    font-weight: bolder;
+}
+
+.page_content p{
+    position: relative;
+    margin:auto; 
+	padding-left:20px;
+    padding-right: 15px;
+	font-size: 0.85em;
+    color: #051B38;
+}
+
+.page_content a:link{
+    text-decoration: none;
+    color: #E5CC00;
+    font-weight: bold;
+}
+
+.page_content a:visited{
+    text-decoration:none;
+    color:#E5CC00;
+}
+
+.page_content .container #last_para{
+    position: relative;
+    text-align: center;
+    margin:0px;
+    font-weight: bold;
+    font-size: 0.85em;
+}
