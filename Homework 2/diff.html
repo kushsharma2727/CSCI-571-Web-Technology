@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	     <title>CSCI 571 Homework 4</title>
+         <style type="text/css">
+			
+            input.submit{
+                margin-top: 15px;
+                }
+            
+		</style>
+		
+        <script>
+			
+			function spacechange(str)
+            {
+			str=endrm(str);
+			return str.replace(/^\s+/g, '');
+			}
+            
+            function noInput()
+            {
+                var msg1="Error Type : No xml files are input";
+                alert(msg1);
+                return;
+            }
+            
+            function test2()
+            {
+                return test1();
+            }
+            
+            function noRow()
+            {
+                var msg2="Error Type : XML file containing NO radio stations";
+                alert(msg2);
+                return;
+            }
+            
+            function openwindow()
+            { 
+                var nt = window.open("","","height=800,width=1215,scrollbars=yes");
+                nt.resizeTo(1215,800);
+                return nt;
+            }
+            
+            function endrm(p){
+				return p.replace(/\s+$/g,'');
+			}
+            
+            function filenotthere(){
+                var msg4="Error Type : XML file does not exist";
+                alert(msg4);
+            }
+            
+            function test1()
+            {
+                var fl=true;
+                return fl;
+            }
+            
+            function wrongSyntax(){
+                var msg3="Error Type : Error in XML file";
+                alert(msg3);
+                return;
+            }
+			
+            function produceH(doc_xml){ 
+				var totalrows = doc_xml.getElementsByTagName("Row"); 
+                var rws=totalrows.length;
+			   	if ( rws== 0) { 
+                    categ_error = true; 
+                    noRow();
+                    return;
+			   	}
+                
+				function dum(){
+					return false;
+				}
+                
+				var next_tb = openwindow();
+				ELEMENT_NODE = 1;  
+			   	
+                var base = doc_xml.DocumentElement; 
+                var data1="<!DOCTYPE html>\n<html><head><title>Homework 4</title><style> body{ margin:0px; min-height:100%;} tr{text-align: left;} td{text-align: center; font-weight: bold;}</style></head>\n<body>\n";
+                var data2="<table width='1178px' border='2'>\n";
+                var dat_contt = doc_xml.getElementsByTagName("Table");
+                
+                next_tb.document.write(data1);
+                next_tb.document.write(data2);
+			   	
+                var data3="<thead>\n";
+			   	var vertical_col = doc_xml.getElementsByTagName("Header")[0];
+                var data4="<tr>\n";
+                var fl2=test1();
+			   	
+                next_tb.document.write(data3);
+                next_tb.document.write(data4);
+                
+			   	var group_data = vertical_col.childNodes; 
+			   	for (var i =0; i<group_data.length; i++){ 
+                        var ch=func_ign(group_data[i]);
+                        //alert(ch);
+			   		if (!ch) {
+                        var g=group_data[i].childNodes[0].nodeValue;
+                        next_tb.document.write("<td>" + g + "</td>");
+                    }
+			   	}
+                
+			   	next_tb.document.write(data4);
+                var data5="</thead>\n<tbody>\n"
+			   	next_tb.document.write(data5);
+                fl2=test1();
+                
+                var data6="<tr>";
+                var univ="<th>"+ " " +"</th>";
+                var orli1="<th><ul>\n";
+                var orli2="</ul></th>\n";
+                var rowclose="</tr>";
+                var tableclose="</tbody></table>\n</body>\n</html>";
+                var fl3=test2();
+			   	
+			   	for (var j = 0; j <rws; j++) {
+                    var fnd=totalrows.item(j);
+			   		var vara = fnd.childNodes;
+			   		
+                    next_tb.document.write(data6);
+					fl3=test2();
+                    for (var i = 0; i < group_data.length; i++) {
+                        fl2=test1();
+						if (dum() || !func_ign(vara[i])) {
+							
+                            if (vara[i].nodeName == "Logo") {
+								
+                                if (!func_ign(vara[i])) 
+                                {
+                                    
+                                    var flag1=vara[i].hasChildNodes();
+									if (flag1) 
+                                    {
+                                        
+                                        var fnd2=vara[i].childNodes[0];
+										var logocheckVal = spacechange(fnd2.nodeValue);
+                                        fl2=test1();
+                                        var data7= "<th><img style='display:block;' width='100%' height='100%' src="+ logocheckVal +" /></th>";
+										if (logocheckVal != "") {
+                                            next_tb.document.write(data7);
+                                        }
+										
+                                        else
+                                        {
+                                            next_tb.document.write(univ);
+                                        }
+                                    }
+									
+                                    else
+                                    {
+                                        next_tb.document.write(univ);
+                                    }
+                                }	
+							}
+                            
+							else if (vara[i].nodeName == "HomePage") {
+								if (dum() || !func_ign(vara[i])) 
+                                {
+                                    var flag2=vara[i].hasChildNodes();
+                                    var fl2=test1();
+									if (flag2) 
+                                    {
+                                        var fnd2=vara[i].childNodes[0];
+                                        validHomePage = spacechange(fnd2.nodeValue);
+                                        fl3=test2();
+                                        var data8="<th><a href='"+vara[i].childNodes[0].nodeValue+"'>"+vara[i].childNodes[0].nodeValue+"</a></th>\n";
+                                        var fl2=test1();
+										if (validHomePage != "") {
+											next_tb.document.write(data8);
+                                        }
+										else{
+                                            next_tb.document.write(univ);
+                                        }
+                                    }
+									else
+                                    {
+                                        next_tb.document.write(univ);
+                                    }
+                                }	
+							}
+                            
+                            else if (vara[i].nodeName == "Location") 
+                            {
+                                var row_cit = vara[i].childNodes;
+                                var list1="<th><ul>\n";
+                                var list2="</ul></th>\n";
+                                var fl2=test1();
+								next_tb.document.write(list1);
+								for (var k = 0; k<row_cit.length; k++) 
+                                {
+									if (dum() || !func_ign(row_cit[k]))
+                                    {  
+										if(row_cit[k].hasChildNodes())
+                                        {
+											var checkcityVal = spacechange(row_cit[k].childNodes[0].nodeValue);
+                                            var ms="<li>"+checkcityVal+"</li>";
+											if (checkcityVal != "") 
+                                            {
+                                                next_tb.document.write(ms);
+                                            }
+                                        }
+                                    }
+                                }
+                                fl3=test2();
+								next_tb.document.write(list2);
+							}
+							else
+                            {
+								if (dum() || !func_ign(vara[i])) 
+                                {
+                                    var flag4=vara[i].hasChildNodes();
+									if (flag4) 
+                                    {
+                                        var fnd2=vara[i].childNodes[0];
+										validTag = spacechange(fnd2.nodeValue);
+                                        var data10="<th>"+ vara[i].childNodes[0].nodeValue +"</th>\n";
+                                        var fl2=test1();
+										if (validTag != "") 
+                                        {
+                                            next_tb.document.write(data10);
+                                        }
+										else
+                                        {
+                                            next_tb.document.write(univ);
+                                        }
+                                    }
+									else
+                                    {
+                                        next_tb.document.write(univ);
+                                    }
+                                }
+                            }
+                        }
+                    }
+					next_tb.document.write(rowclose);
+				}
+			   	next_tb.document.write(tableclose);
+        	}
+            
+            function whitespaceCheck(pass_nod)
+            { 
+                return !(/[^\t\n\r ]/.test(pass_nod.textContent));
+            }
+            
+            function xmlDisp (urlname) 
+            {
+				var categ_error = false;
+				var URL = urlname.URL.value;
+				var check_exist = document.readyState;
+				if (URL=="") { 
+                        categ_error = true; 
+                        noInput();
+						return;
+                }
+				var doc_xml;
+				
+                function xmlLoad(url) 
+                { 
+					if (window.XMLHttpRequest) {
+                        xmlhttp = new XMLHttpRequest();
+                    }
+					 else 
+                     {
+                         xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                     }
+					
+                    xmlhttp.open("GET",URL,false); 
+                    xmlhttp.send();
+                    
+					
+                    if (xmlhttp.status ==404) 
+                    {
+                    categ_error = true;
+                    filenotthere();
+                    }
+                    doc_xml=xmlhttp.responseXML;
+                    return doc_xml;  
+                }
+
+				doc_xml = xmlLoad(URL);
+
+				if(doc_xml.documentElement.nodeName == "parsererror"){
+                    categ_error = true;
+                    wrongSyntax();
+					
+					return;
+                }
+
+				if(categ_error == false) {
+                    doc_xml = produceH(doc_xml);
+                                         }				
+			}
+            
+            function func_ign(pass_nod)
+            { 
+                return ((pass_nod.nodeType == 3) && whitespaceCheck(pass_nod) )||( pass_nod.nodeType == 8);
+            }
+            
+        	document.close();
+		</script>	
+	</head>
+	<body>	
+        <div align="center">
+		  <p>Enter URL for Company List XML File</p>
+		  <form name="myform" method="POST" id="location">
+		  <input type="text" name="URL"/>
+		  <br />
+		  <input class="submit" type="button" name="submit" value="Submit Query" onClick="xmlDisp(this.form)"/>
+		  </form>
+        </div>
+		<noscript>
+	</body>
+</html>

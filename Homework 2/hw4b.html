@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			body{
+                background-color: white;
+				text-align: center;}
+            
+            p{
+                background-color: white;}
+			
+            input.submit{
+                background-color: gainsboro;
+				margin-top: 20px;
+                font-family: sans-serif;}
+            
+		</style>
+		
+        <script type="text/javascript">
+			
+			function deletespace(str)
+            {
+                var otherString;
+                otherString= str.replace(/^\s+|\s+$/g, '');
+                return otherString;
+            }
+			
+            function generateHTML(xmlDoc){ 
+				var companies = xmlDoc.getElementsByTagName("Row"); 
+                var count = 0;
+			   	if (companies.length==0) { alert("Error Condition XML File has no ");
+			   		errorType = 3;
+                    count = count +1;
+                    return;
+			   	}
+                
+                var newtable = window.open("","","scrollbars = yes","width=1200","height=800");
+               
+			
+                ELEMENT_NODE = 1;  
+			   	var root = xmlDoc.DocumentElement; 
+                var content = xmlDoc.getElementsByTagName("Table");
+                newtable.document.write("<!DOCTYPE html>\n<html><head></head>\n<body>\n<table width='1145px' border='4'>\n");
+			   	var column = xmlDoc.getElementsByTagName("Header")[0];
+			   	newtable.document.write("<thead>\n<tr>\n");
+			  
+			   	var dataList = column.childNodes; 
+			   	for (var i =0;i<=dataList.length-1; i++){ 
+                    var k= dataList[i].childNodes[0];
+			   		if (!is_ignorable(dataList[i])) 
+                    {newtable.document.write("<th>" + k.nodeValue + "</th>");}
+			   	}
+                
+			   	newtable.document.write("</tr>\n</thead>\n<tbody>\n");
+			   
+			   	
+			   	for (var j = 0; j <=companies.length-1; j++) {
+			   		var abc = companies.item(j).childNodes;
+			   		newtable.document.write("<tr>");
+					for (var i = 0; i <=dataList.length-1; i++) {
+						if (!is_ignorable(abc[i])) {
+                            if (abc[i].nodeName != "Logo" && abc[i].nodeName != "HomePage" && abc[i].nodeName != "Location"){
+                                if (!is_ignorable(abc[i])) {
+									if (abc[i].hasChildNodes()) {
+										validTag = deletespace(abc[i].childNodes[0].nodeValue);
+										if (validTag != "") {newtable.document.write("<th>"+ abc[i].childNodes[0].nodeValue +"</th>\n");}
+										else{newtable.document.write("<th>"+ " " +"</th>\n");}}
+									else{newtable.document.write("<th>"+ " " +"</th>\n");}}
+                                
+                            }
+                            
+							else if (abc[i].nodeName == "Logo") {
+								if (!is_ignorable(abc[i])) {
+									if (abc[i].hasChildNodes()) {
+										var validLogo = deletespace(abc[i].childNodes[0].nodeValue);
+										if (validLogo != "") {newtable.document.write("<th><img style='display:block;' width='100%' height='100%' src="+ validLogo +" /></th>");}
+										else{newtable.document.write("<th>"+ " " +"</th>");}}
+									else{newtable.document.write("<th>"+ " " +"</th>");}}	
+							}
+                            
+							else if (abc[i].nodeName == "HomePage") {
+								if (!is_ignorable(abc[i])) {
+									if (abc[i].hasChildNodes()) {validHomePage = deletespace(abc[i].childNodes[0].nodeValue);
+										if (validHomePage != "") {
+											newtable.document.write("<th><a href='"+abc[i].childNodes[0].nodeValue+"'>"+abc[i].childNodes[0].nodeValue+"</a></th>\n");}
+										else{newtable.document.write("<th>"+" "+"</th>\n");}}
+									else{newtable.document.write("<th>"+ " " +"</th>");}}	
+							}
+                            
+                            else if (abc[i].nodeName == "Location") {
+                                var city = abc[i].childNodes;
+								newtable.document.write("<th><ul>\n");
+								for (var k = 0; k<city.length; k++) {
+									if (!is_ignorable(city[k])){  
+										if(city[k].hasChildNodes()){
+											var validcity = deletespace(city[k].childNodes[0].nodeValue);
+											if (validcity != "") {newtable.document.write("<li>"+validcity+"</li>");}}}}
+								newtable.document.write("</ul></th>\n");	
+							}
+							}}
+					newtable.document.write("</tr>");
+				}
+			   	newtable.document.write("</tbody></table>\n</body>\n</html>");
+        	}
+            
+            function is_all_ws(nod){ return !(/[^\t\n\r ]/.test(nod.textContent));}
+            
+            function viewXML (urlname) {
+				var errorType = 0;
+				var URL = urlname.URL.value;
+				var isExist = document.readyState;
+					if (URL=="") { errorType = 1; 
+						alert("No xml files are input");
+						return;}
+				var xmlDoc;
+				
+                function loadXML(url) { 
+					if (window.XMLHttpRequest) {xmlhttp = new XMLHttpRequest();}
+					 else {xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");}
+					
+                    xmlhttp.open("GET",URL,false); 
+                    xmlhttp.send();
+                    
+					if (xmlhttp.status ==404) {errorType = 4;alert("XML file does not exist");} 
+                    xmlDoc=xmlhttp.responseXML;
+                    return xmlDoc;  }
+
+				xmlDoc = loadXML(URL);
+
+				if(xmlDoc.documentElement.nodeName == "parsererror"){errorType = 2;
+					alert("Error in XML file");
+					return;}
+
+				if(errorType == 0) {xmlDoc = generateHTML(xmlDoc);}				
+			}
+            
+            function is_ignorable(nod){return ( nod.nodeType == 8) || ( (nod.nodeType == 3) && is_all_ws(nod) );}
+            
+        	document.close();
+		</script>	
+	</head>
+	<body>	
+		<p>Enter URL for Company List XML File</p>
+		<form name="myform" method="POST" id="location">
+		<input type="text" name="URL" maxlength="255" size="25" value="" />
+		<br />
+		<input class="submit" type="button" name="submit" value="Submit Query" onClick="viewXML(this.form)" />
+		</form>
+		<noscript>
+	</body>
+</html>

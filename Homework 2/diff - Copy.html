@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	     <title>Homework 4</title>
+         <style type="text/css">
+			
+            input.submit{
+                margin-top: 15px;
+                }
+            
+		</style>
+		
+        <script>
+			
+			
+            
+			function deletespace(str){
+			str=endrm(str);
+			return str.replace(/^\s+/g, '');
+			}
+			
+			function endrm(p){
+				return p.replace(/\s+$/g,'');
+			}
+            
+            function openwindow(){ 
+                var nt = window.open("","Error","height=800,width=1200,scrollbars=yes");
+                nt.resizeTo(1200,800);
+                return nt;
+            }
+            
+            function noInput(){
+                var msg1="No xml files are input";
+                alert(msg1);
+                return;
+                }
+            
+            function noRow(){
+                var msg2="XML file containing NO radio stations";
+                alert(msg2);
+                return;
+            }
+            
+            function wrongSyntax(){
+                var msg3="Error in XML file";
+                alert(msg3);
+                return;
+            }
+            
+            function filenotthere(){
+                var msg4="XML file does not exist";
+                alert(msg4);
+            }
+            
+            function finderr(){
+			var cnt;
+				for(int k=0; k<100;k++){
+				//
+				}
+			}
+			
+            function generateHTML(xmlDoc){ 
+				var yc = xmlDoc.getElementsByTagName("Row"); 
+                var rws=yc.length;
+			   	if ( rws== 0) { 
+                    flg = true; 
+                    noRow();
+                    return;
+			   	}
+				
+				function dum(){
+					return false;
+				}
+                
+				var screenvar = openwindow();
+				ELEMENT_NODE = 1;  
+			   	var root = xmlDoc.DocumentElement; 
+                var data1="<!DOCTYPE html>\n<html><head></head>\n<body>\n";
+                var data2="<table width='1145px' border='4'>\n";
+                var content = xmlDoc.getElementsByTagName("Table");
+                screenvar.document.write(data1);
+                screenvar.document.write(data2);
+			   	var data3="<thead>\n";
+			   	var column = xmlDoc.getElementsByTagName("Header")[0];
+                var data4="<tr>\n";
+			   	screenvar.document.write(data3);
+                screenvar.document.write(data4);
+                
+			   	var dataList = column.childNodes; 
+			   	for (var i =0; i<dataList.length; i++){ 
+                        var ch=is_ignorable(dataList[i]);
+                        //alert(ch);
+			   		if (!ch) {
+                        var g=dataList[i].childNodes[0].nodeValue;
+                        screenvar.document.write("<th>" + g + "</th>");}
+			   	}
+                
+			   	screenvar.document.write(data4);
+                var data5="</thead>\n<tbody>\n"
+			   	screenvar.document.write(data5);
+                var data6="<tr>";
+                var univ="<th>"+ " " +"</th>";
+                var orli1="<th><ul>\n";
+               var orli2="</ul></th>\n";
+                var rowclose="</tr>";
+                var tableclose="</tbody></table>\n</body>\n</html>";
+			   	
+			   	for (var j = 0; j <rws; j++) {
+                    var fnd=yc.item(j);
+			   		var abc = fnd.childNodes;
+			   		screenvar.document.write(data6);
+					for (var i = 0; i < dataList.length; i++) {
+						if (dum() || !is_ignorable(abc[i])) {
+							if (abc[i].nodeName == "Logo") {
+								if (!is_ignorable(abc[i])) {
+                                    var flag1=abc[i].hasChildNodes();
+									if (flag1) {
+                                        var fnd2=abc[i].childNodes[0];
+										var validLogo = deletespace(fnd2.nodeValue);
+                                        var data7= "<th><img style='display:block;' width='100%' height='100%' src="+ validLogo +" /></th>";
+										if (validLogo != "") {screenvar.document.write(data7);}
+										else{screenvar.document.write(univ);}}
+									else{screenvar.document.write(univ);}}	
+							}
+                            
+							else if (abc[i].nodeName == "HomePage") {
+								if ( dum() || !is_ignorable(abc[i])) {
+                                    var flag2=abc[i].hasChildNodes();
+									if (flag2) {
+                                        var fnd2=abc[i].childNodes[0];
+                                        validHomePage = deletespace(fnd2.nodeValue);
+                                        var data8="<th><a href='"+abc[i].childNodes[0].nodeValue+"'>"+abc[i].childNodes[0].nodeValue+"</a></th>\n";
+										if (validHomePage != "") {
+											screenvar.document.write(data8);}
+										else{screenvar.document.write(univ);}}
+									else{screenvar.document.write(univ);}}	
+							}
+                            
+                            else if (abc[i].nodeName == "Location") {
+                                var city = abc[i].childNodes;
+                                var list1="<th><ul>\n";
+                                var list2="</ul></th>\n";
+								screenvar.document.write(list1);
+								for (var k = 0; k<city.length; k++) {
+									if ( dum() || !is_ignorable(city[k])){  
+										if(city[k].hasChildNodes()){
+											var validcity = deletespace(city[k].childNodes[0].nodeValue);
+                                            var ms="<li>"+validcity+"</li>";
+											if (validcity != "") {screenvar.document.write(ms);}}}}
+								screenvar.document.write(list2);
+							}
+							else{
+								if ( dum() || !is_ignorable(abc[i])) {
+                                    var flag4=abc[i].hasChildNodes();
+									if (flag4) {
+                                        var fnd2=abc[i].childNodes[0];
+										validTag = deletespace(fnd2.nodeValue);
+                                        var data10="<th>"+ abc[i].childNodes[0].nodeValue +"</th>\n";
+										if (validTag != "") {screenvar.document.write(data10);}
+										else{screenvar.document.write(univ);}}
+									else{screenvar.document.write(univ);}}}}}
+					screenvar.document.write(rowclose);
+				}
+			   	screenvar.document.write(tableclose);
+        	}
+            
+            function is_all_ws(nod){ return !(/[^\t\n\r ]/.test(nod.textContent));}
+            
+            function viewXML (urlname) {
+				var flg = false;
+				var URL = urlname.URL.value;
+				var isExist = document.readyState;
+					if (URL=="") { flg = true; 
+                        noInput();
+						return;}
+				var xmlDoc;
+				
+                function loadXML(url) { 
+					if (window.XMLHttpRequest) {xmlhttp = new XMLHttpRequest();}
+					 else {xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");}
+					
+                    xmlhttp.open("GET",URL,false); 
+                    xmlhttp.send();
+                    
+					if(isExist==4){
+                    if (xmlhttp.status ==404) {flg = true;
+                    filenotthere();}} 
+                    xmlDoc=xmlhttp.responseXML;
+                    return xmlDoc;  }
+
+				xmlDoc = loadXML(URL);
+
+				if(xmlDoc.documentElement.nodeName == "parsererror"){
+                    flg = true;
+                    wrongSyntax();
+					
+					return;
+                }
+
+				if(flg == false) {xmlDoc = generateHTML(xmlDoc);}				
+			}
+            
+            function is_ignorable(nod){ return ((nod.nodeType == 3) && is_all_ws(nod) )||( nod.nodeType == 8);}
+            
+        	document.close();
+		</script>	
+	</head>
+	<body>	
+        <div align="center">
+		  <p>Enter URL for Company List XML File</p>
+		  <form name="myform" method="POST" id="location">
+		  <input type="text" name="URL"/>
+		  <br />
+		  <input class="submit" type="button" name="submit" value="Submit Query" onClick="viewXML(this.form)"/>
+		  </form>
+        </div>
+		<noscript>
+	</body>
+</html>
